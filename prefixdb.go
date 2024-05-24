@@ -148,6 +148,10 @@ func (pdb *PrefixDB) NewBatchWithSize(size int) Batch {
 	return newPrefixBatch(pdb.prefix, pdb.db.NewBatchWithSize(size))
 }
 
+func (pdb *PrefixDB) Compaction() {
+	pdb.db.Compaction()
+}
+
 // Close implements DB.
 func (pdb *PrefixDB) Close() error {
 	pdb.mtx.Lock()

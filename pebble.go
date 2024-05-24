@@ -275,6 +275,8 @@ func (db *PebbleDB) ReverseIterator(start, end []byte) (Iterator, error) {
 	return newPebbleDBIterator(itr, start, end, true), nil
 }
 
+func (db *PebbleDB) Compaction() {}
+
 var _ Batch = (*pebbleDBBatch)(nil)
 
 type pebbleDBBatch struct {

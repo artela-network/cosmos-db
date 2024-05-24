@@ -27,7 +27,10 @@ var _ DB = (*GoLevelDB)(nil)
 
 func NewGoLevelDB(name string, dir string, opts Options) (*GoLevelDB, error) {
 	defaultOpts := &opt.Options{
-		Filter: filter.NewBloomFilter(10), // by default, goleveldb doesn't use a bloom filter.
+		Filter:              filter.NewBloomFilter(10), // by default, goleveldb doesn't use a bloom filter.
+		WriteBuffer:         100 * opt.MiB,
+		CompactionTableSize: 100 * opt.MiB,
+		CompactionTotalSize: 200 * opt.MiB,
 	}
 	if opts != nil {
 		files := cast.ToInt(opts.Get("maxopenfiles"))
@@ -208,4 +211,9 @@ func (db *GoLevelDB) ReverseIterator(start, end []byte) (Iterator, error) {
 	}
 	itr := db.db.NewIterator(&util.Range{Start: start, Limit: end}, nil)
 	return newGoLevelDBIterator(itr, start, end, true), nil
+}
+
+func (db *GoLevelDB) Compaction() {
+	err := db.db.CompactRange(util.Range{})
+	fmt.Println("-----------------------------", err)
 }
