@@ -215,5 +215,6 @@ func (db *GoLevelDB) ReverseIterator(start, end []byte) (Iterator, error) {
 
 func (db *GoLevelDB) Compaction() {
 	err := db.db.CompactRange(util.Range{})
-	fmt.Println("-----------------------------", err)
+	// TODO add log
+	_ = err
 }
