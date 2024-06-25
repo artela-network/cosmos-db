@@ -212,3 +212,5 @@ func (db *MemDB) ReverseIteratorNoMtx(start, end []byte) (Iterator, error) {
 	}
 	return newMemDBIteratorMtxChoice(db, start, end, true, false), nil
 }
+
+func (db *MemDB) Compaction() {}
