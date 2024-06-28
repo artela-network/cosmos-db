@@ -213,3 +213,7 @@ func (db *RocksDB) ReverseIterator(start, end []byte) (Iterator, error) {
 	itr := db.db.NewIterator(db.ro)
 	return newRocksDBIterator(itr, start, end, true), nil
 }
+
+func (db *RocksDB) ForceCompact(start, limit []byte) error {
+	return nil
+}

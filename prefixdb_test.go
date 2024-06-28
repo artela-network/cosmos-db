@@ -32,14 +32,17 @@ func taskKey(i, k int) []byte {
 
 func randomValue() []byte {
 	b := make([]byte, 16)
-	rand.Read(b) //nolint:staticcheck,gosec
+	_, err := rand.Read(b)
+	if err != nil {
+		panic(fmt.Sprintf("random value generation failed: %v", err))
+	}
 	return b
 }
 
 func TestGolevelDB(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "goleveldb")
 
-	db, err := NewGoLevelDB(path, "", nil)
+	db, err := NewGoLevelDB(path, "")
 	require.NoError(t, err)
 
 	Run(t, db)
