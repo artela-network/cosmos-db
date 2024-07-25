@@ -1,4 +1,4 @@
-module github.com/cosmos/cosmos-db
+module github.com/artela-network/cosmos-db
 
 go 1.19
 
