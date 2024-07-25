@@ -1,4 +1,4 @@
-module github.com/cosmos/cosmos-db
+module github.com/cometbft/cometbft-db
 
 go 1.19
 
