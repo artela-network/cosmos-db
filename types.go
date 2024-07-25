@@ -74,6 +74,8 @@ type DB interface {
 
 	// Stats returns a map of property values for all keys and the size of the cache.
 	Stats() map[string]string
+
+	ForceCompact(start, limit []byte) error
 }
 
 // Batch represents a group of writes. They may or may not be written atomically depending on the

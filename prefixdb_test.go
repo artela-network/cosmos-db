@@ -34,7 +34,7 @@ func randomValue() []byte {
 	b := make([]byte, 16)
 	_, err := rand.Read(b)
 	if err != nil {
-	    panic(fmt.Sprintf("random value generation failed: %v", err))
+		panic(fmt.Sprintf("random value generation failed: %v", err))
 	}
 	return b
 }
@@ -42,7 +42,7 @@ func randomValue() []byte {
 func TestGolevelDB(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "goleveldb")
 
-	db, err := NewGoLevelDB(path, "", nil)
+	db, err := NewGoLevelDB(path, "")
 	require.NoError(t, err)
 
 	Run(t, db)

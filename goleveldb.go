@@ -14,7 +14,16 @@ import (
 
 func init() {
 	dbCreator := func(name string, dir string, opts Options) (DB, error) {
-		return NewGoLevelDB(name, dir, opts)
+		defaultOpts := &opt.Options{
+			Filter: filter.NewBloomFilter(10), // by default, goleveldb doesn't use a bloom filter.
+		}
+		if opts != nil {
+			files := cast.ToInt(opts.Get("maxopenfiles"))
+			if files > 0 {
+				defaultOpts.OpenFilesCacheCapacity = files
+			}
+		}
+		return NewGoLevelDBWithOpts(name, dir, defaultOpts)
 	}
 	registerDBCreator(GoLevelDBBackend, dbCreator, false)
 }
@@ -25,15 +34,9 @@ type GoLevelDB struct {
 
 var _ DB = (*GoLevelDB)(nil)
 
-func NewGoLevelDB(name string, dir string, opts Options) (*GoLevelDB, error) {
+func NewGoLevelDB(name string, dir string) (*GoLevelDB, error) {
 	defaultOpts := &opt.Options{
 		Filter: filter.NewBloomFilter(10), // by default, goleveldb doesn't use a bloom filter.
-	}
-	if opts != nil {
-		files := cast.ToInt(opts.Get("maxopenfiles"))
-		if files > 0 {
-			defaultOpts.OpenFilesCacheCapacity = files
-		}
 	}
 
 	return NewGoLevelDBWithOpts(name, dir, defaultOpts)
